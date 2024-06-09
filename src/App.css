@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  width: 100%;
+}
+
+.content-container {
+  padding-top: 56px; /* Altura del navbar */
+  width: 100%;
+}
+
+.page-content {
+  width: 100%;
+  box-sizing: border-box; /* Para incluir el padding en el tamaño total del elemento */
+  margin-top: 1%;
+}
+
+
