@@ -10,6 +10,7 @@ import SpendingChart from './Components/SpendingChart.js';
 import InflationChart from './Components/InflationChart.js';
 import GDPPerCapitaChart from './Components/GDPPerCapitaChart.js';
 import EducationExpenditureChart from './Components/EducationExpenditureChart.js';
+import LaborForceChart from './Components/LaborForceChart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Container, Row, Card } from 'react-bootstrap';
 import './App.css';
@@ -88,9 +89,11 @@ function App() {
             </Row>
           </Container>
         );
+
       case 'empleo':
 
         return <Container fluid>
+          
           <Row className="mb-4">
             <Card className="mb-4">
               <Card.Body>
@@ -98,6 +101,15 @@ function App() {
               </Card.Body>
             </Card>
           </Row>
+          
+          <Row className="mb-4">
+            <Card className="mb-4">
+              <Card.Body>
+                <LaborForceChart />
+              </Card.Body>
+            </Card>
+          </Row>
+
         </Container>;
 
       case 'educacion':
