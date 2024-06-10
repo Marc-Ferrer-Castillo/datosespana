@@ -62,7 +62,6 @@ const LineChartWithSlider = ({ title, fetchDataUrl, yAxisLabel, formatYAxisValue
                 setYearRange([Math.min(...years), Math.max(...years)]);
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
-                window.location.reload();
             }
         };
 
@@ -70,7 +69,6 @@ const LineChartWithSlider = ({ title, fetchDataUrl, yAxisLabel, formatYAxisValue
             fetchData();
         } catch (error) {
             console.error('Error inesperado:', error);
-            window.location.reload();
         }
     }, [fetchDataUrl]);
 
