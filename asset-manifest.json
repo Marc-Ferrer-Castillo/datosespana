@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/datosespana/static/css/main.4826c22e.css",
-    "main.js": "/datosespana/static/js/main.6c7c473c.js",
+    "main.js": "/datosespana/static/js/main.d47144af.js",
     "static/js/453.c066abc0.chunk.js": "/datosespana/static/js/453.c066abc0.chunk.js",
     "index.html": "/datosespana/index.html",
     "main.4826c22e.css.map": "/datosespana/static/css/main.4826c22e.css.map",
-    "main.6c7c473c.js.map": "/datosespana/static/js/main.6c7c473c.js.map",
+    "main.d47144af.js.map": "/datosespana/static/js/main.d47144af.js.map",
     "453.c066abc0.chunk.js.map": "/datosespana/static/js/453.c066abc0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4826c22e.css",
-    "static/js/main.6c7c473c.js"
+    "static/js/main.d47144af.js"
   ]
 }
