@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import Modal from 'react-modal';
 import { Button, IconButton } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import './App.css';
-import InfoIcon from '@mui/icons-material/Info';
 
 // Estilos del modal
 const customStyles = {
@@ -24,14 +24,14 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-function GDPChart() {
-    const [gdpData, setGdpData] = useState([]);
+function TaxChart() {
+    const [taxData, setTaxData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://api.worldbank.org/v2/country/ES/indicator/NY.GDP.MKTP.CD?format=json`);
+                const response = await fetch(`http://api.worldbank.org/v2/country/ES/indicator/NY.TAX.NIND.CD?format=json`);
                 const data = await response.json();
 
                 if (!Array.isArray(data) || data.length < 2 || !Array.isArray(data[1])) {
@@ -47,7 +47,7 @@ function GDPChart() {
                     }))
                     .sort((a, b) => a.x.localeCompare(b.x));
 
-                setGdpData([{
+                setTaxData([{
                     id: 'España',
                     data: processedData
                 }]);
@@ -75,12 +75,13 @@ function GDPChart() {
 
     return (
         <div>
-            <h2>PIB (US$ a precios actuales)</h2>
+            <h2>Impuestos netos sobre productos en miles de millones (US$ a precios actuales)</h2>
             <Button
                 variant="outlined"
                 color="primary"
                 startIcon={<InfoIcon />}
-                onClick={openModal}>
+                onClick={openModal}
+            >
                 Detalles
             </Button>
             <Modal
@@ -93,15 +94,15 @@ function GDPChart() {
                     onClick={closeModal}>
                     <CloseIcon />
                 </IconButton>
-                <h2>PIB (US$ a precios actuales)</h2>
+                <h2>Impuestos netos sobre productos (US$ a precios actuales)</h2>
                 <div>
-                    <p>El PIB a precios de comprador es la suma del valor agregado bruto de todos los productores residentes en la economía más los impuestos sobre los productos y menos los subsidios no incluidos en el valor de los productos. Se calcula sin hacer deducciones por depreciación de activos fabricados o por agotamiento y degradación de recursos naturales. Los datos están en dólares estadounidenses actuales. Las cifras en dólares del PIB se convierten a partir de monedas nacionales utilizando tipos de cambio oficiales de un solo año. Para algunos países donde el tipo de cambio oficial no refleja el tipo efectivamente aplicado a las transacciones reales de divisas, se utiliza un factor de conversión alternativo.</p>
+                    <p>Los impuestos netos sobre productos son impuestos menos subsidios que se aplican a la producción, importación, venta y consumo de bienes y servicios. Incluyen impuestos sobre el valor agregado (IVA), impuestos especiales y otros impuestos indirectos, pero no incluyen impuestos directos sobre la renta o la propiedad.</p>
                     <p><strong>Fuente:</strong> Datos de cuentas nacionales del Banco Mundial y archivos de datos de Cuentas Nacionales de la OCDE.</p>
                 </div>
             </Modal>
             <div style={{ minWidth: '800px', width: 'auto', height: 800, overflow: 'unset' }}>
                 <ResponsiveLine
-                    data={gdpData}
+                    data={taxData}
                     margin={{ top: 50, right: 110, bottom: 110, left: 110 }}
                     xScale={{ type: 'point' }}
                     yScale={{
@@ -127,7 +128,7 @@ function GDPChart() {
                         tickSize: 5,
                         tickPadding: 25,
                         tickRotation: 0,
-                        legend: 'PIB (US$ a precios actuales)',
+                        legend: 'Impuestos netos (US$ a precios actuales)',
                         legendOffset: -15,
                         legendPosition: 'middle',
                         format: value => `${(value / 1e9).toFixed(2)} B` // Expresar en miles de millones
@@ -172,4 +173,4 @@ function GDPChart() {
     );
 }
 
-export default GDPChart;
+export default TaxChart;

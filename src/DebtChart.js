@@ -24,14 +24,14 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-function GDPChart() {
-    const [gdpData, setGdpData] = useState([]);
+function DebtChart() {
+    const [debtData, setDebtData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://api.worldbank.org/v2/country/ES/indicator/NY.GDP.MKTP.CD?format=json`);
+                const response = await fetch(`http://api.worldbank.org/v2/country/ES/indicator/GC.DOD.TOTL.GD.ZS?format=json`);
                 const data = await response.json();
 
                 if (!Array.isArray(data) || data.length < 2 || !Array.isArray(data[1])) {
@@ -43,11 +43,11 @@ function GDPChart() {
                     .filter(item => item.value !== null && parseInt(item.date) >= 2000)
                     .map(item => ({
                         x: item.date,
-                        y: item.value
+                        y: item.value // Asegúrate de que el valor es numérico y está en el formato correcto
                     }))
                     .sort((a, b) => a.x.localeCompare(b.x));
 
-                setGdpData([{
+                setDebtData([{
                     id: 'España',
                     data: processedData
                 }]);
@@ -75,7 +75,7 @@ function GDPChart() {
 
     return (
         <div>
-            <h2>PIB (US$ a precios actuales)</h2>
+            <h2>Deuda del Gobierno Central (% del PIB)</h2>
             <Button
                 variant="outlined"
                 color="primary"
@@ -93,22 +93,22 @@ function GDPChart() {
                     onClick={closeModal}>
                     <CloseIcon />
                 </IconButton>
-                <h2>PIB (US$ a precios actuales)</h2>
+                <h2>Deuda del gobierno central, total (% del PIB)</h2>
                 <div>
-                    <p>El PIB a precios de comprador es la suma del valor agregado bruto de todos los productores residentes en la economía más los impuestos sobre los productos y menos los subsidios no incluidos en el valor de los productos. Se calcula sin hacer deducciones por depreciación de activos fabricados o por agotamiento y degradación de recursos naturales. Los datos están en dólares estadounidenses actuales. Las cifras en dólares del PIB se convierten a partir de monedas nacionales utilizando tipos de cambio oficiales de un solo año. Para algunos países donde el tipo de cambio oficial no refleja el tipo efectivamente aplicado a las transacciones reales de divisas, se utiliza un factor de conversión alternativo.</p>
-                    <p><strong>Fuente:</strong> Datos de cuentas nacionales del Banco Mundial y archivos de datos de Cuentas Nacionales de la OCDE.</p>
+                    <p>La deuda es el conjunto total de obligaciones contractuales directas del gobierno a plazo fijo con otros pendientes en una fecha particular. Incluye pasivos internos y externos, como depósitos en moneda y dinero, valores distintos de acciones y préstamos. Es el monto bruto de los pasivos del gobierno menos el monto de capital y derivados financieros en poder del gobierno. Como la deuda es un stock y no un flujo, se mide a partir de una fecha determinada, generalmente el último día del año fiscal.</p>
+                    <p><strong>Fuente:</strong> Fondo Monetario Internacional, Anuario de Estadísticas de Finanzas Públicas y archivos de datos, y estimaciones del PIB del Banco Mundial y la OCDE.</p>
                 </div>
             </Modal>
             <div style={{ minWidth: '800px', width: 'auto', height: 800, overflow: 'unset' }}>
                 <ResponsiveLine
-                    data={gdpData}
+                    data={debtData}
                     margin={{ top: 50, right: 110, bottom: 110, left: 110 }}
                     xScale={{ type: 'point' }}
                     yScale={{
                         type: 'linear',
                         min: 'auto',
                         max: 'auto',
-                        stacked: true,
+                        stacked: false,
                         reverse: false
                     }}
                     axisTop={null}
@@ -125,19 +125,18 @@ function GDPChart() {
                     axisLeft={{
                         orient: 'left',
                         tickSize: 5,
-                        tickPadding: 25,
+                        tickPadding: 12,
                         tickRotation: 0,
-                        legend: 'PIB (US$ a precios actuales)',
-                        legendOffset: -15,
+                        legend: 'Deuda (% del PIB)',
+                        legendOffset: -60,
                         legendPosition: 'middle',
-                        format: value => `${(value / 1e9).toFixed(2)} B` // Expresar en miles de millones
+                        format: value => `${value}%`
                     }}
                     pointSize={10}
                     pointColor={{ theme: 'background' }}
                     pointBorderWidth={2}
-                    enablePointLabel={true}
-                    pointLabel={point => `${(point.data.y / 1e9).toFixed(2)} Mil millones`} // Mostrar el valor del punto en miles de millones
                     pointBorderColor={{ from: 'serieColor' }}
+                    pointLabel={point => `${point.data.y.toFixed(0)}%`}
                     pointLabelYOffset={-12}
                     useMesh={false}
                     legends={[
@@ -166,10 +165,11 @@ function GDPChart() {
                             ]
                         }
                     ]}
+                    enablePointLabel={true}  // Habilitar etiquetas de puntos
                 />
             </div>
         </div>
     );
 }
 
-export default GDPChart;
+export default DebtChart;
