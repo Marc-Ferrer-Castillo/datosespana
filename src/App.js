@@ -8,6 +8,7 @@ import ExportChart from './ExportChart.js';
 import ReserveChart from './ReserveChart.js';
 import SpendingChart from './SpendingChart.js';
 import InflationChart from './InflationChart.js';
+import GDPPerCapitaChart from './GDPPerCapitaChart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Container, Row, Card } from 'react-bootstrap';
 import './App.css';
@@ -25,6 +26,14 @@ function App() {
               <Card className="mb-4">
                 <Card.Body>
                   <GDPChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <GDPPerCapitaChart />
                 </Card.Body>
               </Card>
             </Row>
