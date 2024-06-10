@@ -1,3 +1,3 @@
 # Link to website
 
-[github.com/Marc-Ferrer-Castillo/datosespana](https://github.com/Marc-Ferrer-Castillo/datosespana).
+[marc-ferrer-castillo.github.io/datosespana/](https://marc-ferrer-castillo.github.io/datosespana/).
