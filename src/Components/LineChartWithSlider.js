@@ -4,7 +4,6 @@ import Modal from 'react-modal';
 import { Button, IconButton, Slider } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
-import './App.css';
 
 // Estilos del modal
 const customStyles = {

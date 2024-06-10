@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import GDPChart from './GDPChart.js';
-import Empleo from './Empleo.js';
-import DebtChart from './DebtChart.js';
-import TaxChart from './TaxChart.js';
-import ExportChart from './ExportChart.js';
-import ReserveChart from './ReserveChart.js';
-import SpendingChart from './SpendingChart.js';
-import InflationChart from './InflationChart.js';
-import GDPPerCapitaChart from './GDPPerCapitaChart.js';
+import GDPChart from './Components/GDPChart.js';
+import Empleo from './Components/Empleo.js';
+import DebtChart from './Components/DebtChart.js';
+import TaxChart from './Components/TaxChart.js';
+import ExportChart from './Components/ExportChart.js';
+import ReserveChart from './Components/ReserveChart.js';
+import SpendingChart from './Components/SpendingChart.js';
+import InflationChart from './Components/InflationChart.js';
+import GDPPerCapitaChart from './Components/GDPPerCapitaChart.js';
+import EducationExpenditureChart from './Components/EducationExpenditureChart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Container, Row, Card } from 'react-bootstrap';
 import './App.css';
@@ -98,6 +99,19 @@ function App() {
             </Card>
           </Row>
         </Container>;
+
+      case 'educacion':
+
+        return <Container fluid>
+          <Row className="mb-4">
+            <Card className="mb-4">
+              <Card.Body>
+                <EducationExpenditureChart />
+              </Card.Body>
+            </Card>
+          </Row>
+        </Container>;
+
       default:
         return <GDPChart />;
     }
@@ -113,6 +127,7 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link href="#" onClick={() => setCurrentPage('economia')}>Economía y crecimiento</Nav.Link>
               <Nav.Link href="#" onClick={() => setCurrentPage('empleo')}>Empleo</Nav.Link>
+              <Nav.Link href="#" onClick={() => setCurrentPage('educacion')}>Educación</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
