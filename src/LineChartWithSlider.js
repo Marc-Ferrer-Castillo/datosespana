@@ -118,10 +118,10 @@ const LineChartWithSlider = ({ title, fetchDataUrl, yAxisLabel, formatYAxisValue
                     <p>{description}</p>
                 </div>
             </Modal>
-            <div style={{ minWidth: '800px', width: 'auto', height: 800, overflow: 'unset', marginBottom: '-50px' }}>
+            <div style={{ width: 'auto', height: 800, overflow: 'unset', marginBottom: '-50px' }}>
                 <ResponsiveLine
                     data={data}
-                    margin={{ top: 50, right: 110, bottom: 110, left: 110 }}
+                    margin={{ top: 50, right: window.innerWidth <= 768 ? 20 : 110, bottom: 110, left: window.innerWidth <= 768 ? 60 : 110 }}
                     xScale={{ type: 'point' }}
                     yScale={{
                         type: 'linear',
@@ -136,9 +136,9 @@ const LineChartWithSlider = ({ title, fetchDataUrl, yAxisLabel, formatYAxisValue
                         orient: 'bottom',
                         tickSize: 5,
                         tickPadding: 5,
-                        tickRotation: 0,
+                        tickRotation: 90,
                         legend: 'Año',
-                        legendOffset: 36,
+                        legendOffset: 46,
                         legendPosition: 'middle'
                     }}
                     axisLeft={{
@@ -161,7 +161,7 @@ const LineChartWithSlider = ({ title, fetchDataUrl, yAxisLabel, formatYAxisValue
                     useMesh={false}
                 />
             </div>
-            <div style={{ margin: '0px 110px' }}>
+            <div style={{ margin: window.innerWidth <= 768 ? '0px 20px' : '0px 110px' }}>
                 <Slider
                     value={yearRange}
                     onChange={handleYearRangeChange}

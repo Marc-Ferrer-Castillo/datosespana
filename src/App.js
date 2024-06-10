@@ -7,8 +7,9 @@ import TaxChart from './TaxChart.js';
 import ExportChart from './ExportChart.js';
 import ReserveChart from './ReserveChart.js';
 import SpendingChart from './SpendingChart.js';
+import InflationChart from './InflationChart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, Container, Row, Col, Card } from 'react-bootstrap';
+import { Navbar, Nav, Container, Row, Card } from 'react-bootstrap';
 import './App.css';
 
 function App() {
@@ -19,10 +20,35 @@ function App() {
       case 'economia':
         return (
           <Container fluid>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <GDPChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <InflationChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
             <Row className="mb-4">
               <Card className="mb-4">
                 <Card.Body>
                   <SpendingChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <DebtChart />
                 </Card.Body>
               </Card>
             </Row>
@@ -41,22 +67,6 @@ function App() {
                   <ReserveChart />
                 </Card.Body>
               </Card>
-
-            </Row>
-            <Row className="mb-4">
-              <Card className="mb-4">
-                <Card.Body>
-                  <DebtChart />
-                </Card.Body>
-              </Card>
-            </Row>
-
-            <Row className="mb-4">
-              <Card className="mb-4">
-                <Card.Body>
-                  <GDPChart />
-                </Card.Body>
-              </Card>
             </Row>
 
             <Row className="mb-4">
@@ -69,7 +79,16 @@ function App() {
           </Container>
         );
       case 'empleo':
-        return <Empleo />;
+
+        return <Container fluid>
+          <Row className="mb-4">
+            <Card className="mb-4">
+              <Card.Body>
+                <Empleo />
+              </Card.Body>
+            </Card>
+          </Row>
+        </Container>;
       default:
         return <GDPChart />;
     }
