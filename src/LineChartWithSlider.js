@@ -94,7 +94,7 @@ const LineChartWithSlider = ({ title, fetchDataUrl, yAxisLabel, formatYAxisValue
 
     return (
         <div>
-            <h2>{title}</h2>
+            <h3>{title}</h3>
             <Button
                 variant="outlined"
                 color="primary"

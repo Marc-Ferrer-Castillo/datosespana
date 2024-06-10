@@ -8,7 +8,7 @@ import ExportChart from './ExportChart.js';
 import ReserveChart from './ReserveChart.js';
 import SpendingChart from './SpendingChart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Row, Col, Card } from 'react-bootstrap';
 import './App.css';
 
 function App() {
@@ -17,14 +17,57 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'economia':
-        return <div>
-          <SpendingChart />
-          <ExportChart />
-          <ReserveChart />
-          <DebtChart />
-          <GDPChart />
-          <TaxChart />
-        </div>;
+        return (
+          <Container fluid>
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <SpendingChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <ExportChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <ReserveChart />
+                </Card.Body>
+              </Card>
+
+            </Row>
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <DebtChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <GDPChart />
+                </Card.Body>
+              </Card>
+            </Row>
+
+            <Row className="mb-4">
+              <Card className="mb-4">
+                <Card.Body>
+                  <TaxChart />
+                </Card.Body>
+              </Card>
+            </Row>
+          </Container>
+        );
       case 'empleo':
         return <Empleo />;
       default:
