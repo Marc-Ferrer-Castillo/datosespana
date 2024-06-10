@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import Modal from 'react-modal';
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, Slider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import './App.css';
 import InfoIcon from '@mui/icons-material/Info';
@@ -27,6 +27,10 @@ Modal.setAppElement('#root');
 function GDPChart() {
     const [gdpData, setGdpData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [yearRange, setYearRange] = useState([2000, 2023]);
+    const [allData, setAllData] = useState([]);
+    const [minYear, setMinYear] = useState(2000);
+    const [maxYear, setMaxYear] = useState(2023);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,17 +44,23 @@ function GDPChart() {
                 }
 
                 const processedData = data[1]
-                    .filter(item => item.value !== null && parseInt(item.date) >= 2000)
+                    .filter(item => item.value !== null)
                     .map(item => ({
-                        x: item.date,
+                        x: parseInt(item.date),
                         y: item.value
                     }))
-                    .sort((a, b) => a.x.localeCompare(b.x));
+                    .sort((a, b) => a.x - b.x);
 
+                setAllData(processedData);
                 setGdpData([{
                     id: 'España',
                     data: processedData
                 }]);
+
+                const years = processedData.map(item => item.x);
+                setMinYear(Math.min(...years));
+                setMaxYear(Math.max(...years));
+                setYearRange([Math.min(...years), Math.max(...years)]);
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
                 window.location.reload();
@@ -64,6 +74,15 @@ function GDPChart() {
             window.location.reload();
         }
     }, []);
+
+    const handleYearRangeChange = (event, newValue) => {
+        setYearRange(newValue);
+        const filteredData = allData.filter(item => item.x >= newValue[0] && item.x <= newValue[1]);
+        setGdpData([{
+            id: 'España',
+            data: filteredData
+        }]);
+    };
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -99,7 +118,7 @@ function GDPChart() {
                     <p><strong>Fuente:</strong> Datos de cuentas nacionales del Banco Mundial y archivos de datos de Cuentas Nacionales de la OCDE.</p>
                 </div>
             </Modal>
-            <div style={{ minWidth: '800px', width: 'auto', height: 800, overflow: 'unset' }}>
+            <div style={{ minWidth: '800px', width: 'auto', height: 800, overflow: 'unset', marginBottom: '-50px' }}>
                 <ResponsiveLine
                     data={gdpData}
                     margin={{ top: 50, right: 110, bottom: 110, left: 110 }}
@@ -140,31 +159,18 @@ function GDPChart() {
                     pointBorderColor={{ from: 'serieColor' }}
                     pointLabelYOffset={-12}
                     useMesh={false}
-                    legends={[
-                        {
-                            anchor: 'bottom-right',
-                            direction: 'column',
-                            justify: false,
-                            translateX: 100,
-                            translateY: 0,
-                            itemsSpacing: 0,
-                            itemDirection: 'left-to-right',
-                            itemWidth: 80,
-                            itemHeight: 20,
-                            itemOpacity: 0.75,
-                            symbolSize: 12,
-                            symbolShape: 'circle',
-                            symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                            effects: [
-                                {
-                                    on: 'hover',
-                                    style: {
-                                        itemBackground: 'rgba(0, 0, 0, .03)',
-                                        itemOpacity: 1
-                                    }
-                                }
-                            ]
-                        }
+                />
+            </div>
+            <div style={{ margin: '0px 110px' }}>
+                <Slider
+                    value={yearRange}
+                    onChange={handleYearRangeChange}
+                    valueLabelDisplay="auto"
+                    min={minYear}
+                    max={maxYear}
+                    marks={[
+                        { value: minYear, label: String(minYear) },
+                        { value: maxYear, label: String(maxYear) }
                     ]}
                 />
             </div>

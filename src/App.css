@@ -48,7 +48,6 @@
 
 .page-content {
   width: 100%;
-  box-sizing: border-box; /* Para incluir el padding en el tamaño total del elemento */
   margin-top: 1%;
 }
 

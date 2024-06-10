@@ -4,6 +4,9 @@ import GDPChart from './GDPChart.js';
 import Empleo from './Empleo.js';
 import DebtChart from './DebtChart.js';
 import TaxChart from './TaxChart.js';
+import ExportChart from './ExportChart.js';
+import ReserveChart from './ReserveChart.js';
+import SpendingChart from './SpendingChart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import './App.css';
@@ -15,6 +18,9 @@ function App() {
     switch (currentPage) {
       case 'economia':
         return <div>
+          <SpendingChart />
+          <ExportChart />
+          <ReserveChart />
           <DebtChart />
           <GDPChart />
           <TaxChart />

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import Modal from 'react-modal';
 import { Button, IconButton, Slider } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import './App.css';
-import InfoIcon from '@mui/icons-material/Info';
 
 // Estilos del modal
 const customStyles = {
@@ -24,18 +24,18 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-function DebtChart() {
-    const [debtData, setDebtData] = useState([]);
+function ReserveChart() {
+    const [reserveData, setReserveData] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [yearRange, setYearRange] = useState([2000, 2023]);
+    const [yearRange, setYearRange] = useState([1974, 2022]);
     const [allData, setAllData] = useState([]);
-    const [minYear, setMinYear] = useState(2000);
-    const [maxYear, setMaxYear] = useState(2023);
+    const [minYear, setMinYear] = useState(1974);
+    const [maxYear, setMaxYear] = useState(2022);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://api.worldbank.org/v2/country/ES/indicator/GC.DOD.TOTL.GD.ZS?format=json`);
+                const response = await fetch(`http://api.worldbank.org/v2/country/ES/indicator/FI.RES.TOTL.CD?format=json`);
                 const data = await response.json();
 
                 if (!Array.isArray(data) || data.length < 2 || !Array.isArray(data[1])) {
@@ -52,7 +52,7 @@ function DebtChart() {
                     .sort((a, b) => a.x - b.x);
 
                 setAllData(processedData);
-                setDebtData([{
+                setReserveData([{
                     id: 'España',
                     data: processedData
                 }]);
@@ -78,7 +78,7 @@ function DebtChart() {
     const handleYearRangeChange = (event, newValue) => {
         setYearRange(newValue);
         const filteredData = allData.filter(item => item.x >= newValue[0] && item.x <= newValue[1]);
-        setDebtData([{
+        setReserveData([{
             id: 'España',
             data: filteredData
         }]);
@@ -94,12 +94,13 @@ function DebtChart() {
 
     return (
         <div>
-            <h2>Deuda del Gobierno Central (% del PIB)</h2>
+            <h2>Total de reservas (incluye oro, US$ a precios actuales)</h2>
             <Button
                 variant="outlined"
                 color="primary"
                 startIcon={<InfoIcon />}
-                onClick={openModal}>
+                onClick={openModal}
+            >
                 Detalles
             </Button>
             <Modal
@@ -112,22 +113,23 @@ function DebtChart() {
                     onClick={closeModal}>
                     <CloseIcon />
                 </IconButton>
-                <h2>Deuda del gobierno central, total (% del PIB)</h2>
+                <h2>Total de reservas (incluye oro, US$ a precios actuales)</h2>
                 <div>
-                    <p>La deuda es el conjunto total de obligaciones contractuales directas del gobierno a plazo fijo con otros pendientes en una fecha particular. Incluye pasivos internos y externos, como depósitos en moneda y dinero, valores distintos de acciones y préstamos. Es el monto bruto de los pasivos del gobierno menos el monto de capital y derivados financieros en poder del gobierno. Como la deuda es un stock y no un flujo, se mide a partir de una fecha determinada, generalmente el último día del año fiscal.</p>
-                    <p><strong>Fuente:</strong> Fondo Monetario Internacional, Anuario de Estadísticas de Finanzas Públicas y archivos de datos, y estimaciones del PIB del Banco Mundial y la OCDE.</p>
+                    <p>El total de reservas comprenden las tenencias de oro monetario, derechos especiales de giro, reservas de los miembros del FMI que mantiene el FMI y tenencias de divisas bajo el control de autoridades monetarias. El componente de oro de estas reservas se valora a los precios de fin de año (31 de diciembre) de Londres. Datos en US$ a precios actuales.</p>
+                    <p><strong>Fuente:</strong> Fondo Monetario Internacional, Estadísticas financieras internacionales y archivos de datos.</p>
                 </div>
             </Modal>
-            <div style={{ minWidth: '800px', width: 'auto', height: 800, overflow: 'unset', marginBottom: '-50px' }}>
+           
+            <div style={{ minWidth: 800, height: 800, overflow: 'unset', marginBottom: '-50px' }}>
                 <ResponsiveLine
-                    data={debtData}
+                    data={reserveData}
                     margin={{ top: 50, right: 110, bottom: 110, left: 110 }}
                     xScale={{ type: 'point' }}
                     yScale={{
                         type: 'linear',
                         min: 'auto',
                         max: 'auto',
-                        stacked: false,
+                        stacked: true,
                         reverse: false
                     }}
                     axisTop={null}
@@ -144,23 +146,24 @@ function DebtChart() {
                     axisLeft={{
                         orient: 'left',
                         tickSize: 5,
-                        tickPadding: 12,
+                        tickPadding: 25,
                         tickRotation: 0,
-                        legend: 'Deuda (% del PIB)',
-                        legendOffset: -60,
+                        legend: 'Reservas (US$ a precios actuales)',
+                        legendOffset: -15,
                         legendPosition: 'middle',
-                        format: value => `${value}%`
+                        format: value => `${(value / 1e9).toFixed(2)} B` // Expresar en miles de millones
                     }}
                     pointSize={10}
                     pointColor={{ theme: 'background' }}
                     pointBorderWidth={2}
+                    enablePointLabel={true}
+                    pointLabel={point => `${(point.data.y / 1e9).toFixed(2)} Mil millones`} // Mostrar el valor del punto en miles de millones
                     pointBorderColor={{ from: 'serieColor' }}
-                    pointLabel={point => `${point.data.y.toFixed(0)}%`}
                     pointLabelYOffset={-12}
                     useMesh={false}
-                    enablePointLabel={true}  // Habilitar etiquetas de puntos
                 />
             </div>
+
             <div style={{ margin: '0px 110px' }}>
                 <Slider
                     value={yearRange}
@@ -178,4 +181,4 @@ function DebtChart() {
     );
 }
 
-export default DebtChart;
+export default ReserveChart;
